@@ -1,7 +1,7 @@
 // 1. Use the D3 library to read in samples.json:
 // ----------------------------------------------
 var names  = function() {
-    d3.json('../samples.json').then(function(data) {
+    d3.json('../../data/samples.json').then(function(data) {
         var names = data.names
         names.forEach((id) => {
             d3.select('#selDataset').append('option')
@@ -10,7 +10,7 @@ var names  = function() {
     })   
 };
 
-d3.json('../samples.json').then(function(data) {
+d3.json('../../data/samples.json').then(function(data) {
     names()
     var s_values = data.samples[0].sample_values
     var ids = data.samples[0].otu_ids
@@ -32,19 +32,29 @@ var barPlot = function(ids, sample_values, hovText) {
         x: sample_values.slice(0, 10).reverse(),
         y: ids.slice(0, 10).reverse(),
         text: hovText.slice(0, 10).reverse(),
-        orientation: 'h'
+        orientation: 'h',
+        marker: {
+            color: 'rgb(100,100,200)',
+            opacity: 0.25,
+            line: {
+                color: 'rgb(10,10,200)',
+                width: 1.5
+            }
+        }
 };
 
 var data = [trace];
 
 var layout = {
     title: 'Bar chart of Top 10 OTUs',
+    showlegend: false,
     xaxis: {
         title: 'OTU Count'
     },
     yaxis: {
         categoryorder: 'total ascending'
-    }
+    },
+    bargap: 0.2
 };
 
 Plotly.newPlot('bar', data, layout)
@@ -64,6 +74,7 @@ var bubblePlot = function(ids, sample_values, hovText) {
         y: sample_values,
         mode: 'markers',
         marker: {
+            opacity: 0.75,
             size: sample_values,
             color: ids
         },
@@ -74,6 +85,7 @@ var data = [trace];
 
 var layout = {
     title: "Bubble chart of OTU IDs",
+    showlegend: false,
     xaxis: {
         title: "OTU ID"
     }
@@ -87,7 +99,7 @@ Plotly.newPlot('bubble', data, layout)
 // 5. Display each key-value pair from the metadata JSON object somewhere on the page:
 // --------------------------------------------------------------------------------
 var demographics = function () {
-    d3.json('../samples.json').then(function(data) {
+    d3.json('../../data/samples.json').then(function(data) {
         Object.entries(data.metadata[0]).forEach(function([key, value]) {
             d3.select('#sample-metadata').append('p')
             .text(`${key}: ${value}`)
