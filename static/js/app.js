@@ -1,7 +1,7 @@
 // 1. Use the D3 library to read in samples.json:
 // ----------------------------------------------
 var names  = function() {
-    d3.json('../../data/samples.json').then(function(data) {
+    d3.json('samples.json').then(function(data) {
         var names = data.names
         names.forEach((id) => {
             d3.select('#selDataset').append('option')
@@ -10,7 +10,7 @@ var names  = function() {
     })   
 };
 
-d3.json('../../data/samples.json').then(function(data) {
+d3.json('samples.json').then(function(data) {
     names()
     var s_values = data.samples[0].sample_values
     var ids = data.samples[0].otu_ids
@@ -99,7 +99,7 @@ Plotly.newPlot('bubble', data, layout)
 // 5. Display each key-value pair from the metadata JSON object somewhere on the page:
 // --------------------------------------------------------------------------------
 var demographics = function () {
-    d3.json('../../data/samples.json').then(function(data) {
+    d3.json('samples.json').then(function(data) {
         Object.entries(data.metadata[0]).forEach(function([key, value]) {
             d3.select('#sample-metadata').append('p')
             .text(`${key}: ${value}`)
