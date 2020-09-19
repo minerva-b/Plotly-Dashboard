@@ -2,11 +2,11 @@
 // ----------------------------------------------
 var names  = function() {
     d3.json('../samples.json').then(function(data) {
-            var names = data.names
-            names.forEach((id) => {
-                d3.select('#selDataset').append('option')
-                .attr('value', id).text(id)
-            })
+        var names = data.names
+        names.forEach((id) => {
+            d3.select('#selDataset').append('option')
+            .attr('value', id).text(id)
+        })
     })   
 };
 
@@ -35,20 +35,20 @@ var barPlot = function(ids, sample_values, hovText) {
         orientation: 'h'
 };
 
-    var data = [trace];
+var data = [trace];
 
-    var layout = {
-            title: 'Bar chart of Top 10 OTUs',
-            xaxis: {
-                    title: 'OTU Count'
-            },
-            yaxis: {
-                    categoryorder: 'total ascending'
-            }
+var layout = {
+    title: 'Bar chart of Top 10 OTUs',
+    xaxis: {
+        title: 'OTU Count'
+    },
+    yaxis: {
+        categoryorder: 'total ascending'
+    }
+};
 
-    };
+Plotly.newPlot('bar', data, layout)
 
-    Plotly.newPlot('bar', data, layout)
 };
 
 // 3. Create a bubble chart that displays each sample:
@@ -70,18 +70,35 @@ var bubblePlot = function(ids, sample_values, hovText) {
         text: hovText
     };
 
-    var data = [trace];
+var data = [trace];
 
-    var layout = {
-        title: "Bubble chart of OTU IDs",
-        xaxis: {
-            title: "OTU ID"
-        }
-    };
+var layout = {
+    title: "Bubble chart of OTU IDs",
+    xaxis: {
+        title: "OTU ID"
+    }
+};
 
-    Plotly.newPlot('bubble', data, layout)
+Plotly.newPlot('bubble', data, layout)
+
 };
 
 // 4. Display the sample metadata, i.e., an individual's demographic information:
 // 5. Display each key-value pair from the metadata JSON object somewhere on the page:
 // --------------------------------------------------------------------------------
+var demographics = function () {
+    d3.json('../samples.json').then(function(data) {
+        Object.entries(data.metadata[0]).forEach(function([key, value]) {
+            d3.select('#sample-metadata').append('p')
+            .text(`${key}: ${value}`)
+        })
+    })
+};
+
+// Come back to create a function when new item is selected from dropdown menu:
+// ----------------------------------------------------------------------------
+
+
+
+// Update all of the plots (bar, bubble, and demographics) any time that a new sample is selected:
+// -----------------------------------------------------------------------------------------------
